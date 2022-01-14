@@ -8,6 +8,7 @@ import { customTheme } from "./Config/Config";
 import { VectorTileDataSource } from "@here/harp-vectortile-datasource";
 import { usePoliceBoundaries } from "./Data/usePoliceBoundaries";
 import { useReports } from "./Data/useReports";
+import { useCameraAnimation } from "./Camera/useCameraAnimation";
 
 const initialCoordinates = new GeoCoordinates(47.58, -122.34);
 const initialZoomLevel = 12.4;
@@ -54,29 +55,18 @@ export default function Map() {
     return () => window.removeEventListener("resize", onWindowResize);
   }, []);
 
-  const onClick = useCallback(
-    (e) => {
-      if (!map) return;
-      const intersectionResults = map.intersectMapObjects(e.pageX, e.pageY);
-      const usableResults = intersectionResults.filter(
-        (result) => result.userData?.$layer === "Seattle"
-      );
-      if (!usableResults.length) return;
-      const target = usableResults[0].userData.target;
-      map.lookAt({
-        target: new GeoCoordinates(target[1], target[0]),
-        zoomLevel: 15,
-      });
-    },
-    [map]
-  );
-
   usePoliceBoundaries(map);
   useReports(map);
 
+  const [onMouseDown, onMouseUp] = useCameraAnimation(map);
+
   return (
     <div className="canvas-container">
-      <canvas ref={canvasRef} onClick={onClick} />
+      <canvas
+        ref={canvasRef}
+        onPointerDown={onMouseDown}
+        onPointerUp={onMouseUp}
+      />
     </div>
   );
 }
