@@ -7,18 +7,25 @@ import {
 import { useEffect } from "react";
 import { interpolateBlues } from "d3-scale-chromatic";
 import policeBoundariesFile from "./policeBoundaries.json";
+import neighbourhoodCount2021 from "./NeighbourhoodCount2021.json";
 
+interface NeighbourhoodCount {
+  [index: string]: number;
+}
 export const usePoliceBoundaries = (map: MapView | null) => {
   useEffect(() => {
     if (!map) return;
     const data: FeatureCollection = {
       ...policeBoundariesFile,
     } as FeatureCollection;
+    const neighbourhoods: NeighbourhoodCount = neighbourhoodCount2021;
+    const maxCount = Math.max(...Object.values(neighbourhoods));
 
     data.features.forEach((feature) => {
-      const density = Math.random();
-      feature.properties.color = interpolateBlues(density);
-      feature.properties.height = density * 2700;
+      const count =
+        neighbourhoods[feature.properties.NEIGHBORHOOD] / maxCount || 0;
+      feature.properties.color = interpolateBlues(count);
+      feature.properties.height = count * 2700;
     });
 
     (async () => {
