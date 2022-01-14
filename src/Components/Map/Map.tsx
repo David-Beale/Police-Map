@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { GeoCoordinates, sphereProjection } from "@here/harp-geoutils";
 import { MapControls, MapControlsUI } from "@here/harp-map-controls";
 import { MapView } from "@here/harp-mapview";
 
-import { customTheme } from "./Config/Config";
+import { theme } from "./Config/Config";
 import { VectorTileDataSource } from "@here/harp-vectortile-datasource";
 import { usePoliceBoundaries } from "./Data/usePoliceBoundaries";
 import { useReports } from "./Data/useReports";
@@ -27,7 +27,7 @@ export default function Map() {
     if (!canvasRef.current) return;
 
     const map = new MapView({
-      theme: customTheme,
+      theme,
       canvas: canvasRef.current,
       target: initialCoordinates,
       zoomLevel: initialZoomLevel,

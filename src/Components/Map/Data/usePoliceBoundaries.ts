@@ -1,18 +1,28 @@
+import { FeatureCollection, Theme } from "@here/harp-datasource-protocol";
 import { MapView } from "@here/harp-mapview";
 import {
   VectorTileDataSource,
   GeoJsonDataProvider,
 } from "@here/harp-vectortile-datasource";
 import { useEffect } from "react";
+import { interpolateYlGnBu } from "d3-scale-chromatic";
+import policeBoundariesFile from "./policeBoundaries.json";
 
 export const usePoliceBoundaries = (map: MapView | null) => {
   useEffect(() => {
     if (!map) return;
+    const data: FeatureCollection = {
+      ...policeBoundariesFile,
+    } as FeatureCollection;
+
+    data.features.forEach((feature) => {
+      const density = Math.random();
+      feature.properties.color = interpolateYlGnBu(density);
+      feature.properties.height = density * 2700;
+    });
+
     (async () => {
-      const geoJsonDataProvider = new GeoJsonDataProvider(
-        "Seattle",
-        new URL("Resources/police.json", window.location.href)
-      );
+      const geoJsonDataProvider = new GeoJsonDataProvider("Seattle", data);
 
       const policeBoundaries = new VectorTileDataSource({
         dataProvider: geoJsonDataProvider,
@@ -22,6 +32,27 @@ export const usePoliceBoundaries = (map: MapView | null) => {
       });
 
       await map.addDataSource(policeBoundaries);
+
+      const theme: Theme = {
+        styles: {
+          geojson: [
+            {
+              when: "$geometryType == 'polygon'",
+              technique: "extruded-polygon",
+              renderOrder: 1000,
+              maxZoomLevel: 15,
+              attr: {
+                color: ["get", "color"],
+                transparent: true,
+                opacity: 0.7,
+                constantHeight: true,
+                boundaryWalls: false,
+              },
+            },
+          ],
+        },
+      };
+      policeBoundaries.setTheme(theme);
 
       map.update();
     })();
