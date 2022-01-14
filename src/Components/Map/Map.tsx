@@ -39,9 +39,6 @@ export default function Map() {
 
     map.addDataSource(dataSource);
 
-    // map.loadPostEffects("resources/effects.json");
-    // map.resize(window.innerWidth, window.innerHeight);
-
     const onWindowResize = () =>
       map.resize(window.innerWidth, window.innerHeight);
     window.addEventListener("resize", onWindowResize);
