@@ -10,7 +10,8 @@ export const Container = styled.div`
 `;
 export const StyledIconButton = styled(IconButton)`
   color: black !important;
-  background-color: white !important;
+  background-color: #c2fadb !important;
+  background-image: linear-gradient(315deg, #6daddb 0%, #c2fadb 74%) !important;
   height: 55px;
   width: 55px;
 `;

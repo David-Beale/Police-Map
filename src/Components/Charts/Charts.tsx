@@ -1,3 +1,10 @@
+import { Container } from "./ChartsStyle";
+import Chart1 from "./Components/Chart1";
+
 export default function Charts() {
-  return null;
+  return (
+    <Container>
+      <Chart1 />
+    </Container>
+  );
 }
