@@ -5,7 +5,7 @@ import {
   GeoJsonDataProvider,
 } from "@here/harp-vectortile-datasource";
 import { useEffect } from "react";
-import { interpolateYlGnBu } from "d3-scale-chromatic";
+import { interpolateBlues } from "d3-scale-chromatic";
 import policeBoundariesFile from "./policeBoundaries.json";
 
 export const usePoliceBoundaries = (map: MapView | null) => {
@@ -17,7 +17,7 @@ export const usePoliceBoundaries = (map: MapView | null) => {
 
     data.features.forEach((feature) => {
       const density = Math.random();
-      feature.properties.color = interpolateYlGnBu(density);
+      feature.properties.color = interpolateBlues(density);
       feature.properties.height = density * 2700;
     });
 
@@ -44,7 +44,7 @@ export const usePoliceBoundaries = (map: MapView | null) => {
               attr: {
                 color: ["get", "color"],
                 transparent: true,
-                opacity: 0.7,
+                opacity: 0.6,
                 constantHeight: true,
                 boundaryWalls: false,
               },

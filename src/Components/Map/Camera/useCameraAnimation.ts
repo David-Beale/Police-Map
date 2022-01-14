@@ -38,7 +38,7 @@ export const useCameraAnimation = (map: MapView | null) => {
         target: new GeoCoordinates(target[1], target[0]),
         tilt: 40,
         heading: 0,
-        distance: 5000,
+        distance: 4000,
       };
 
       const startPosition = map.camera.position.clone();
