@@ -46,7 +46,7 @@ export default function Chart1({ mode }: ChartProps) {
           </StyledIconButton>
         </ZoomOutContainer>
       )}
-      <ResponsiveContainer key={mode} width="100%" height="100%">
+      <ResponsiveContainer key={mode} width="99%" height="100%">
         <LineChart
           width={500}
           height={300}
