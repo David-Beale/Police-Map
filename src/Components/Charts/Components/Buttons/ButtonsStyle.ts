@@ -7,7 +7,7 @@ interface Props {
 }
 export const ButtonsContainer = styled.div`
   position: absolute;
-  top: 50px;
+  top: 75px;
   left: 5px;
   display: flex;
   flex-direction: column;
