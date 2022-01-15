@@ -18,8 +18,8 @@ export const Container = styled.div`
 `;
 
 export const ChartContainer = styled.div`
-  height: 75vh;
-  width: 75vw;
+  height: calc(100vh - 75px);
+  width: calc(100vw - 400px);
   overflow: hidden;
   user-select: none;
 `;
