@@ -66,7 +66,6 @@ export const useZoom = ({ initialData }: Props) => {
   };
 
   const onMouseDown = (e: any) => {
-    console.log(e);
     setRefAreaLeft(e.activeTooltipIndex);
   };
   const onMouseMove = (e: any) => {

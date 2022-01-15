@@ -5,11 +5,16 @@ import {
   TooltipValue,
 } from "./TooltipStyle";
 
-export default function CustomTooltip({ active, payload, label }: any) {
+export default function CustomTooltip({
+  active,
+  payload,
+  label,
+  xAxisLabels,
+}: any) {
   if (!active || !payload || !payload.length) return null;
   return (
     <TooltipContainer>
-      <TooltipLabel>{label}</TooltipLabel>
+      <TooltipLabel>{xAxisLabels[label]}</TooltipLabel>
       {payload
         .sort((a: any, b: any) => b.value - a.value)
         .map((item: any) => {

@@ -53,7 +53,6 @@ export default function Chart1() {
             left: 20,
             bottom: 5,
           }}
-          onClick={(e: any) => console.log(e)}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
           onMouseUp={zoom}
@@ -68,7 +67,7 @@ export default function Chart1() {
             domain={[left, right]}
           />
           <YAxis allowDataOverflow domain={[bottom, top]} />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip xAxisLabels={xAxisLabels} />} />
           <Legend />
           {categories.map((category, index) => {
             return (
