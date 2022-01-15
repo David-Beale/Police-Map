@@ -7,7 +7,6 @@ import {
 
 export default function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload || !payload.length) return null;
-  console.log(payload);
   return (
     <TooltipContainer>
       <TooltipLabel>{label}</TooltipLabel>

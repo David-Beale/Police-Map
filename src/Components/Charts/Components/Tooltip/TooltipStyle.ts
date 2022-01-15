@@ -15,6 +15,7 @@ export const TooltipLabel = styled.div`
   font-size: 1.1rem;
   font-weight: 700;
   text-align: center;
+  color: rgb(200, 200, 200);
 `;
 export const TooltipRow = styled.div`
   width: 100%;
