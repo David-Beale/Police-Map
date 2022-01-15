@@ -17,6 +17,7 @@ export const Container = styled.div`
 `;
 
 export const ChartContainer = styled.div`
-  height: 50vh;
+  height: 75vh;
   width: 75vw;
+  overflow: hidden;
 `;
