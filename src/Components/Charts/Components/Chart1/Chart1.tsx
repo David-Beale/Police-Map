@@ -16,9 +16,13 @@ import CustomTooltip from "../Tooltip/Tooltip";
 import { useData } from "./useData";
 import { useZoom } from "./useZoom";
 import { StyledIconButton } from "../../../ModeSelectButton/ModeSelectButtonStyle";
+import { Mode } from "../../Charts";
 
-export default function Chart1() {
-  const { groupedData, categories, xAxisLabels, colors } = useData();
+export interface ChartProps {
+  mode: Mode;
+}
+export default function Chart1({ mode }: ChartProps) {
+  const { groupedData, categories, xAxisLabels, colors } = useData({ mode });
   const {
     left,
     right,
@@ -42,7 +46,7 @@ export default function Chart1() {
           </StyledIconButton>
         </ZoomOutContainer>
       )}
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer key={mode} width="100%" height="100%">
         <LineChart
           width={500}
           height={300}

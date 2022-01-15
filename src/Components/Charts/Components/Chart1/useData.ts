@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import data from "../../Data/chartData.json";
 import { interpolateSinebow } from "d3-scale-chromatic";
+import { ChartProps } from "./Chart1";
+import { Mode } from "../../Charts";
 
 interface Categories {
   [index: string]: boolean;
@@ -46,19 +48,19 @@ const buildNeighbourhoods = (item: Data, categories: Categories) => {
     ...item.neighbourhoods,
   };
 };
-const getDataByMode = (mode: string, item: Data, categories: Categories) => {
+const getDataByMode = (mode: Mode, item: Data, categories: Categories) => {
   switch (mode) {
-    case "categories":
+    case Mode.Categories:
       return buildCategories(item, categories);
-    case "neighbourhoods":
+    case Mode.Neighbourhoods:
       return buildNeighbourhoods(item, categories);
-    case "total":
+    case Mode.Total:
       return buildTotal(item, categories);
     default:
       return {};
   }
 };
-const buildData = (data: Data[], mode: string) => {
+const buildData = (data: Data[], mode: Mode) => {
   const xAxisLabels: string[] = [];
   const categories: Categories = {};
   const groupedData: ChartItem[] = data.map((item, index) => {
@@ -73,12 +75,9 @@ const buildData = (data: Data[], mode: string) => {
   return { categories, groupedData, xAxisLabels };
 };
 
-export const useData = () => {
+export const useData = ({ mode }: ChartProps) => {
   return useMemo(() => {
-    const { categories, groupedData, xAxisLabels } = buildData(
-      data,
-      "categories"
-    );
+    const { categories, groupedData, xAxisLabels } = buildData(data, mode);
     const categoryArray = Object.keys(categories);
     const spacing = 1 / (categoryArray.length - 1 || 1);
     const colors = categoryArray.map((category, index) =>
@@ -90,5 +89,5 @@ export const useData = () => {
       xAxisLabels,
       colors,
     };
-  }, []);
+  }, [mode]);
 };

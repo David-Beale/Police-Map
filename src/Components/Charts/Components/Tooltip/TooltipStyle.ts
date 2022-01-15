@@ -4,8 +4,8 @@ export const TooltipContainer = styled.div`
   background-color: #4c4177;
   background-image: linear-gradient(
     315deg,
-    hsl(252, 35%, 20%) 0%,
-    hsl(204, 45%, 15%) 60%
+    hsl(204, 45%, 15%) 0%,
+    hsl(252, 35%, 20%) 70%
   );
   padding: 15px;
   border-radius: 15px;

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChartItem } from "./useData";
 
 interface Props {
@@ -12,6 +12,20 @@ export const useZoom = ({ initialData }: Props) => {
   const [refAreaRight, setRefAreaRight] = useState<number | null>(null);
   const [top, setTop] = useState<string | number>("dataMax+1");
   const [bottom, setBottom] = useState<string | number>("dataMin-1");
+
+  const reset = useCallback(() => {
+    setData(initialData.slice());
+    setRefAreaLeft(null);
+    setRefAreaRight(null);
+    setLeft("dataMin");
+    setRight("dataMax");
+    setBottom("dataMin-1");
+    setTop("dataMax+1");
+  }, [initialData]);
+
+  useEffect(() => {
+    reset();
+  }, [reset]);
 
   const getAxisYDomain = useCallback(
     (from: number, to: number) => {
@@ -56,13 +70,7 @@ export const useZoom = ({ initialData }: Props) => {
   };
 
   const zoomOut = () => {
-    setData(data.slice());
-    setRefAreaLeft(null);
-    setRefAreaRight(null);
-    setLeft("dataMin");
-    setRight("dataMax");
-    setBottom("dataMin-1");
-    setTop("dataMax+1");
+    reset();
   };
 
   const onMouseDown = (e: any) => {
