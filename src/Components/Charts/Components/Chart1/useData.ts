@@ -5,8 +5,8 @@ import { interpolateSinebow } from "d3-scale-chromatic";
 interface Categories {
   [index: string]: boolean;
 }
-interface ChartItem {
-  name?: string;
+export interface ChartItem {
+  name: number;
   [index: string]: number | string | undefined;
 }
 interface Data {
@@ -19,8 +19,7 @@ interface Data {
   };
 }
 
-const buildTotal = (item: Data, categories: Categories): ChartItem => {
-  const [year, month] = item.month.split(", ");
+const buildTotal = (item: Data, categories: Categories) => {
   categories.crimes = true;
 
   const total = Object.values(item.categories).reduce(
@@ -28,57 +27,68 @@ const buildTotal = (item: Data, categories: Categories): ChartItem => {
     0
   );
   return {
-    name: `${month}/${year.slice(2)}`,
     crimes: total,
   };
 };
-const buildCategories = (item: Data, categories: Categories): ChartItem => {
-  const [year, month] = item.month.split(", ");
+const buildCategories = (item: Data, categories: Categories) => {
   Object.keys(item.categories).forEach((category) => {
     if (!categories[category]) categories[category] = true;
   });
   return {
-    name: `${month}/${year.slice(2)}`,
     ...item.categories,
   };
 };
-const buildNeighbourhoods = (item: Data, categories: Categories): ChartItem => {
-  const [year, month] = item.month.split(", ");
+const buildNeighbourhoods = (item: Data, categories: Categories) => {
   Object.keys(item.neighbourhoods).forEach((neighbourhood) => {
     if (!categories[neighbourhood]) categories[neighbourhood] = true;
   });
   return {
-    name: `${month}/${year.slice(2)}`,
     ...item.neighbourhoods,
   };
 };
+const getDataByMode = (mode: string, item: Data, categories: Categories) => {
+  switch (mode) {
+    case "categories":
+      return buildCategories(item, categories);
+    case "neighbourhoods":
+      return buildNeighbourhoods(item, categories);
+    case "total":
+      return buildTotal(item, categories);
+    default:
+      return {};
+  }
+};
 const buildData = (data: Data[], mode: string) => {
+  const xAxisLabels: string[] = [];
   const categories: Categories = {};
-  const groupedData: ChartItem[] = data.map((item) => {
-    switch (mode) {
-      case "categories":
-        return buildCategories(item, categories);
-      case "neighbourhoods":
-        return buildNeighbourhoods(item, categories);
-      case "total":
-        return buildTotal(item, categories);
-      default:
-        return {};
-    }
+  const groupedData: ChartItem[] = data.map((item, index) => {
+    const [year, month] = item.month.split(", ");
+    xAxisLabels.push(`${month}/${year.slice(2)}`);
+
+    return {
+      name: index,
+      ...getDataByMode(mode, item, categories),
+    };
   });
-  return { categories, groupedData };
+  return { categories, groupedData, xAxisLabels };
 };
 
 export const useData = () => {
-  const [groupedData, categories, colors] = useMemo(() => {
-    const { categories, groupedData } = buildData(data, "categories");
+  return useMemo(() => {
+    const { categories, groupedData, xAxisLabels } = buildData(
+      data,
+      "categories"
+    );
     const categoryArray = Object.keys(categories);
     const spacing = 1 / (categoryArray.length - 1 || 1);
     const colors = categoryArray.map((category, index) =>
       interpolateSinebow(index * spacing)
     );
-    return [groupedData, categoryArray.sort(), colors];
+    return {
+      groupedData,
+      categories: categoryArray.sort(),
+      xAxisLabels,
+      colors,
+    };
   }, []);
-
-  return { groupedData, categories, colors };
 };

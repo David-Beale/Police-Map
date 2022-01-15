@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  position: relative;
   box-sizing: border-box;
   height: 100vh;
   width: 100vw;
@@ -20,4 +21,13 @@ export const ChartContainer = styled.div`
   height: 75vh;
   width: 75vw;
   overflow: hidden;
+  user-select: none;
+`;
+export const ZoomOutContainer = styled.div`
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  color: white;
+  height: 35px;
+  width: 35px;
 `;
