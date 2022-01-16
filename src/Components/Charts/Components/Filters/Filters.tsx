@@ -1,30 +1,50 @@
 import { UISubContainer } from "../../ChartsStyle";
 import { Title } from "./FiltersStyle";
 import Filter from "./Components/Filter";
-import data from "../../Data/chartData.json";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Data, Mode } from "../../Charts";
-
-const getAllLabels = (type: "categories" | "neighbourhoods") => {
-  let all = {};
-  data.forEach((month) => {
-    all = { ...all, ...month[type] };
-  });
-  return Object.keys(all).sort();
-};
 
 interface Props {
   mode: Mode;
   setFilteredData: React.Dispatch<React.SetStateAction<Data[]>>;
 }
 export default function Filters({ mode, setFilteredData }: Props) {
-  const allNeigbourhoods = useMemo(() => getAllLabels("neighbourhoods"), []);
-  const allCategories = useMemo(() => getAllLabels("categories"), []);
+  const [data, setData] = useState<Data[]>([]);
+
+  const getAllLabels = useCallback(
+    (type: "categories" | "neighbourhoods") => {
+      let all = {};
+      data.forEach((month) => {
+        all = { ...all, ...month[type] };
+      });
+      return Object.keys(all).sort();
+    },
+    [data]
+  );
+
+  const allNeigbourhoods = useMemo(
+    () => getAllLabels("neighbourhoods"),
+    [getAllLabels]
+  );
+  const allCategories = useMemo(
+    () => getAllLabels("categories"),
+    [getAllLabels]
+  );
 
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
   const [neighbourhoodFilter, setNeighbourhoodFilter] = useState<string[]>([]);
 
   useEffect(() => {
+    (async () => {
+      const res = await fetch("./data/chartData.json");
+      if (res.status !== 200) return;
+      const data = await res.json();
+      setData(data);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (!data.length) return;
     const filteredData = data.map((d: Data) => {
       const newD: Data = {
         month: d.month,
@@ -53,7 +73,7 @@ export default function Filters({ mode, setFilteredData }: Props) {
       return newD;
     });
     setFilteredData(filteredData);
-  }, [categoryFilter, neighbourhoodFilter, setFilteredData]);
+  }, [categoryFilter, neighbourhoodFilter, setFilteredData, data]);
 
   if (mode === Mode.Total) return null;
   return (
