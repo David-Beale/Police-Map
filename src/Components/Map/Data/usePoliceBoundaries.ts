@@ -6,8 +6,6 @@ import {
 } from "@here/harp-vectortile-datasource";
 import { useEffect } from "react";
 import { interpolateBlues } from "d3-scale-chromatic";
-import policeBoundariesFile from "./policeBoundaries.json";
-import neighbourhoodCount2021 from "./NeighbourhoodCount2021.json";
 
 interface NeighbourhoodCount {
   [index: string]: number;
@@ -15,20 +13,25 @@ interface NeighbourhoodCount {
 export const usePoliceBoundaries = (map: MapView | null) => {
   useEffect(() => {
     if (!map) return;
-    const data: FeatureCollection = {
-      ...policeBoundariesFile,
-    } as FeatureCollection;
-    const neighbourhoods: NeighbourhoodCount = neighbourhoodCount2021;
-    const maxCount = Math.max(...Object.values(neighbourhoods));
-
-    data.features.forEach((feature) => {
-      const count =
-        neighbourhoods[feature.properties.NEIGHBORHOOD] / maxCount || 0;
-      feature.properties.color = interpolateBlues(count);
-      feature.properties.height = count * 2700;
-    });
 
     (async () => {
+      //fetch local data
+      const res = await fetch("./data/policeBoundaries.json");
+      if (res.status !== 200) return;
+      const data: FeatureCollection = await res.json();
+      const res2 = await fetch("./data/NeighbourhoodCount2021.json");
+      if (res2.status !== 200) return;
+      const neighbourhoods: NeighbourhoodCount = await res2.json();
+
+      const maxCount = Math.max(...Object.values(neighbourhoods));
+
+      data.features.forEach((feature) => {
+        const count =
+          neighbourhoods[feature.properties.NEIGHBORHOOD] / maxCount || 0;
+        feature.properties.color = interpolateBlues(count);
+        feature.properties.height = count * 2700;
+      });
+
       const geoJsonDataProvider = new GeoJsonDataProvider("Seattle", data);
 
       const policeBoundaries = new VectorTileDataSource({
