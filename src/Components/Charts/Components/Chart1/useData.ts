@@ -1,8 +1,7 @@
 import { useMemo } from "react";
-import data from "../../Data/chartData.json";
 import { interpolateSinebow } from "d3-scale-chromatic";
 import { ChartProps } from "./Chart1";
-import { Mode } from "../../Charts";
+import { Data, Mode } from "../../Charts";
 
 interface Categories {
   [index: string]: boolean;
@@ -10,15 +9,6 @@ interface Categories {
 export interface ChartItem {
   name: number;
   [index: string]: number | string | undefined;
-}
-interface Data {
-  month: string;
-  categories: {
-    [index: string]: number | undefined;
-  };
-  neighbourhoods: {
-    [index: string]: number | undefined;
-  };
 }
 
 const buildTotal = (item: Data, categories: Categories) => {
@@ -75,11 +65,14 @@ const buildData = (data: Data[], mode: Mode) => {
   return { categories, groupedData, xAxisLabels };
 };
 
-export const useData = ({ mode }: ChartProps) => {
+export const useData = ({ mode, filteredData }: ChartProps) => {
   return useMemo(() => {
-    const { categories, groupedData, xAxisLabels } = buildData(data, mode);
+    const { categories, groupedData, xAxisLabels } = buildData(
+      filteredData,
+      mode
+    );
     const categoryArray = Object.keys(categories);
-    const spacing = 1 / (categoryArray.length - 1 || 1);
+    const spacing = 1 / categoryArray.length;
     const colors = categoryArray.map((category, index) =>
       interpolateSinebow(index * spacing)
     );
@@ -89,5 +82,5 @@ export const useData = ({ mode }: ChartProps) => {
       xAxisLabels,
       colors,
     };
-  }, [mode]);
+  }, [filteredData, mode]);
 };

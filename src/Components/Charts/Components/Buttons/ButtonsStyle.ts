@@ -5,18 +5,7 @@ interface Props {
     selected: boolean;
   };
 }
-export const ButtonsContainer = styled.div`
-  position: absolute;
-  top: 75px;
-  left: 5px;
-  display: flex;
-  flex-direction: column;
-  color: white;
-  text-align: center;
-  border: 1px solid white;
-  border-radius: 10px;
-  padding: 15px;
-`;
+
 export const Button = styled.div<Props["Button"]>`
   display: flex;
   align-items: center;

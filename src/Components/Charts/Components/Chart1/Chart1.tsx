@@ -16,14 +16,17 @@ import CustomTooltip from "../Tooltip/Tooltip";
 import { useData } from "./useData";
 import { useZoom } from "./useZoom";
 import { StyledIconButton } from "../../../ModeSelectButton/ModeSelectButtonStyle";
-import { Mode } from "../../Charts";
-import { useEffect, useState } from "react";
+import { Data, Mode } from "../../Charts";
 
 export interface ChartProps {
   mode: Mode;
+  filteredData: Data[];
 }
-export default function Chart1({ mode }: ChartProps) {
-  const { groupedData, categories, xAxisLabels, colors } = useData({ mode });
+export default function Chart1({ mode, filteredData }: ChartProps) {
+  const { groupedData, categories, xAxisLabels, colors } = useData({
+    mode,
+    filteredData,
+  });
   const {
     left,
     right,

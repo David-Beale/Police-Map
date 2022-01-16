@@ -31,3 +31,19 @@ export const ZoomOutContainer = styled.div`
   height: 35px;
   width: 35px;
 `;
+export const UIContainer = styled.div`
+  position: absolute;
+  top: 75px;
+  left: 5px;
+`;
+export const UISubContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 30px;
+  width: 165px;
+`;

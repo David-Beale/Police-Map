@@ -1,5 +1,6 @@
 import { Mode } from "../../Charts";
-import { ButtonsContainer, Button, Title } from "./ButtonsStyle";
+import { UISubContainer } from "../../ChartsStyle";
+import { Button, Title } from "./ButtonsStyle";
 
 interface Props {
   mode: Mode;
@@ -8,7 +9,7 @@ interface Props {
 
 export default function Buttons({ mode, setMode }: Props) {
   return (
-    <ButtonsContainer>
+    <UISubContainer>
       <Title>Display Options</Title>
       <Button
         selected={mode === Mode.Total}
@@ -28,6 +29,6 @@ export default function Buttons({ mode, setMode }: Props) {
       >
         Neighbourhoods
       </Button>
-    </ButtonsContainer>
+    </UISubContainer>
   );
 }
