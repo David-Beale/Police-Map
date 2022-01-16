@@ -9,7 +9,7 @@ export const enum Modes {
   Charts,
 }
 export default function App() {
-  const [mode, setMode] = useState(Modes.Charts);
+  const [mode, setMode] = useState(Modes.Map);
 
   return (
     <>
