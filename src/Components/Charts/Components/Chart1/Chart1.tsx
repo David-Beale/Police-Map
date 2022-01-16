@@ -17,11 +17,14 @@ import { useData } from "./useData";
 import { useZoom } from "./useZoom";
 import { StyledIconButton } from "../../../ModeSelectButton/ModeSelectButtonStyle";
 import { Mode } from "../../Charts";
+import { useEffect, useState } from "react";
 
 export interface ChartProps {
   mode: Mode;
 }
 export default function Chart1({ mode }: ChartProps) {
+  const [width, setWidth] = useState("100%");
+
   const { groupedData, categories, xAxisLabels, colors } = useData({ mode });
   const {
     left,
@@ -37,6 +40,10 @@ export default function Chart1({ mode }: ChartProps) {
     onMouseMove,
   } = useZoom({ initialData: groupedData });
 
+  useEffect(() => {
+    setWidth((prev) => (prev === "100%" ? "99%" : "100%"));
+  }, [categories]);
+
   return (
     <ChartContainer>
       {left >= 0 && (
@@ -46,7 +53,7 @@ export default function Chart1({ mode }: ChartProps) {
           </StyledIconButton>
         </ZoomOutContainer>
       )}
-      <ResponsiveContainer key={mode} width="99%" height="100%">
+      <ResponsiveContainer key={mode} width={width} height="100%">
         <LineChart
           data={data}
           margin={{
@@ -82,10 +89,8 @@ export default function Chart1({ mode }: ChartProps) {
               />
             );
           })}
-          {/* <Line type="monotone" dataKey="crimes" stroke="#82ca9d" dot={false} /> */}
           {refAreaLeft && refAreaRight ? (
             <ReferenceArea
-              // yAxisId="1"
               x1={data[refAreaLeft].name}
               x2={data[refAreaRight].name}
               strokeOpacity={0.3}
