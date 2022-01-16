@@ -1509,6 +1509,11 @@
     "@here/harp-utils" "^0.27.1"
     "@tweenjs/tween.js" "^18.6.4"
 
+"@here/harp-map-theme@^0.27.1":
+  "integrity" "sha512-aCQhzOu6NAJv2FKQIXGWkMLTVjFSCZG9UDbdzcn/rX31MGx+inDxXgokdxGZDcBWzRExCmwSMKSblqcPlKLLig=="
+  "resolved" "https://registry.npmjs.org/@here/harp-map-theme/-/harp-map-theme-0.27.1.tgz"
+  "version" "0.27.1"
+
 "@here/harp-mapview-decoder@^0.27.1":
   "integrity" "sha512-UOw74Io5oS2rOA4wKLYrVEhsHahZGUGPHLPjQkMj446WZ+NZygDtLnTIBposChfPSTU43u8mjRMlJjRb7rb0Tg=="
   "resolved" "https://registry.npmjs.org/@here/harp-mapview-decoder/-/harp-mapview-decoder-0.27.1.tgz"
