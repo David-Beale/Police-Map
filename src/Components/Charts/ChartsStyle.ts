@@ -26,7 +26,7 @@ export const ChartContainer = styled.div`
 export const ZoomOutContainer = styled.div`
   position: absolute;
   top: 5px;
-  left: 5px;
+  left: 55px;
   color: white;
   height: 35px;
   width: 35px;

@@ -48,8 +48,6 @@ export default function Chart1({ mode }: ChartProps) {
       )}
       <ResponsiveContainer key={mode} width="99%" height="100%">
         <LineChart
-          width={500}
-          height={300}
           data={data}
           margin={{
             top: 5,
