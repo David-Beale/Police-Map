@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ChartItem } from "./useData";
 
 interface Props {
   initialData: ChartItem[];
 }
 export const useZoom = ({ initialData }: Props) => {
-  const [data, setData] = useState(initialData);
   const [left, setLeft] = useState<any>("dataMin");
   const [right, setRight] = useState<any>("dataMax");
   const [refAreaLeft, setRefAreaLeft] = useState<number | null>(null);
@@ -14,17 +13,20 @@ export const useZoom = ({ initialData }: Props) => {
   const [bottom, setBottom] = useState<string | number>("dataMin-1");
 
   const reset = useCallback(() => {
-    setData(initialData.slice());
     setRefAreaLeft(null);
     setRefAreaRight(null);
     setLeft("dataMin");
     setRight("dataMax");
     setBottom("dataMin-1");
     setTop("dataMax+1");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData]);
 
   useEffect(() => {
-    reset();
+    //add timeout to prevent this from interfering with resize logic
+    setTimeout(() => {
+      reset();
+    }, 100);
   }, [reset]);
 
   const getAxisYDomain = useCallback(
@@ -62,9 +64,8 @@ export const useZoom = ({ initialData }: Props) => {
     // yAxis domain
     const [bottom, top] = getAxisYDomain(left, right);
 
-    setData(data.slice());
-    setLeft(data[left].name);
-    setRight(data[right].name);
+    setLeft(initialData[left].name);
+    setRight(initialData[right].name);
     setBottom(bottom);
     setTop(top);
   };
@@ -86,7 +87,6 @@ export const useZoom = ({ initialData }: Props) => {
     right,
     top,
     bottom,
-    data,
     refAreaLeft,
     refAreaRight,
     zoom,

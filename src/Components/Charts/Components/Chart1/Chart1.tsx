@@ -23,15 +23,12 @@ export interface ChartProps {
   mode: Mode;
 }
 export default function Chart1({ mode }: ChartProps) {
-  const [width, setWidth] = useState("100%");
-
   const { groupedData, categories, xAxisLabels, colors } = useData({ mode });
   const {
     left,
     right,
     top,
     bottom,
-    data,
     refAreaLeft,
     refAreaRight,
     zoom,
@@ -39,10 +36,6 @@ export default function Chart1({ mode }: ChartProps) {
     onMouseDown,
     onMouseMove,
   } = useZoom({ initialData: groupedData });
-
-  useEffect(() => {
-    setWidth((prev) => (prev === "100%" ? "99%" : "100%"));
-  }, [categories]);
 
   return (
     <ChartContainer>
@@ -53,9 +46,9 @@ export default function Chart1({ mode }: ChartProps) {
           </StyledIconButton>
         </ZoomOutContainer>
       )}
-      <ResponsiveContainer key={mode} width={width} height="100%">
+      <ResponsiveContainer width="100%" height="100%">
         <LineChart
-          data={data}
+          data={groupedData}
           margin={{
             top: 5,
             right: 30,
@@ -91,8 +84,8 @@ export default function Chart1({ mode }: ChartProps) {
           })}
           {refAreaLeft && refAreaRight ? (
             <ReferenceArea
-              x1={data[refAreaLeft].name}
-              x2={data[refAreaRight].name}
+              x1={groupedData[refAreaLeft].name}
+              x2={groupedData[refAreaRight].name}
               strokeOpacity={0.3}
             />
           ) : null}
