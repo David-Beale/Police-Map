@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Police-Map/static/css/main.b7d60fa8.css",
-    "main.js": "/Police-Map/static/js/main.fd15a968.js",
+    "main.js": "/Police-Map/static/js/main.a6b22f45.js",
     "index.html": "/Police-Map/index.html",
     "main.b7d60fa8.css.map": "/Police-Map/static/css/main.b7d60fa8.css.map",
-    "main.fd15a968.js.map": "/Police-Map/static/js/main.fd15a968.js.map"
+    "main.a6b22f45.js.map": "/Police-Map/static/js/main.a6b22f45.js.map"
   },
   "entrypoints": [
     "static/css/main.b7d60fa8.css",
-    "static/js/main.fd15a968.js"
+    "static/js/main.a6b22f45.js"
   ]
 }
